@@ -1,0 +1,28 @@
+body{
+    background-image: url("./img/download.png") no-repeat;
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+    align-content: center;
+    display: flex;
+}
+.form{
+    width: 420px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+    align-items: center;
+    align-content:center ;
+
+}
+.form .div{
+    div{
+        text-align: center;
+
+    }
+}
+
