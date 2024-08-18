@@ -6,7 +6,7 @@
     <title>Exquisite Gourmet Order</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
-    <link rel="stylesheet" href="order_form.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -15,7 +15,12 @@
             --text-color: #34495e;
             --input-bg: #fff;
             --input-border: #d1d5db;
+            --success-bg: #d4edda;
+            --success-color: #155724;
+            --error-bg: #f8d7da;
+            --error-color: #721c24;
         }
+        
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-color);
@@ -31,50 +36,60 @@
             background-position: center;
             background-attachment: fixed;
         }
+        
         .container {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 60px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 4rem;
+            border-radius: 0.9375rem;
+            box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 540px;
-            backdrop-filter: blur(10px);
+            max-width: 33.75rem;
+            backdrop-filter: blur(0.625rem);
         }
+        
         h1 {
             font-family: 'Cormorant Garamond', serif;
             color: var(--primary-color);
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 2.5rem;
             font-size: 3em;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 0.0625rem;
         }
+        
         form {
             display: flex;
             flex-direction: column;
         }
+        
         label {
-            margin-bottom: 10px;
+            margin-bottom: 0.625rem;
+            margin-left: 10px;
+            margin-right: 30px;
             font-weight: 600;
             color: var(--primary-color);
             font-size: 0.9em;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.0625rem;
         }
+        
         input, select {
-            padding: 15px;
-            margin-bottom: 25px;
+            padding: 0.9375rem;
+            margin-bottom: 1.5625rem;
+            margin-right: 100px;
             border: 1px solid var(--input-border);
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 0.5rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
             background-color: var(--input-bg);
         }
+        
         input:focus, select:focus {
             outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+            box-shadow: 0 0 0 0.1875rem rgba(192, 57, 43, 0.1);
         }
+        
         input[type="submit"] {
             background-color: var(--accent-color);
             color: white;
@@ -83,99 +98,111 @@
             transition: all 0.3s ease;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 18px;
+            letter-spacing: 0.125rem;
+            padding: 1.125rem;
             font-size: 1em;
         }
+        
         input[type="submit"]:hover {
             background-color: #a93226;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(169, 50, 38, 0.3);
+            transform: translateY(-0.125rem);
+            box-shadow: 0 0.3125rem 0.9375rem rgba(169, 50, 38, 0.3);
         }
+        
         input[type="submit"]:active {
             transform: translateY(0);
         }
+        
         .message {
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 8px;
+            padding: 0.9375rem;
+            margin-bottom: 1.5625rem;
+            border-radius: 0.5rem;
             text-align: center;
             font-weight: 500;
             font-size: 0.9em;
         }
+        
         .success {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: var(--success-bg);
+            color: var(--success-color);
             border: 1px solid #c3e6cb;
         }
+        
         .error {
-            background-color: #f8d7da;
-            color: #721c24;
+            background-color: var(--error-bg);
+            color: var(--error-color);
             border: 1px solid #f5c6cb;
         }
+        
         a {
             display: block;
             text-align: center;
             color: var(--accent-color);
             text-decoration: none;
-            margin-top: 30px;
+            margin-top: 1.875rem;
             font-weight: 600;
             transition: all 0.3s ease;
             font-size: 0.9em;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.0625rem;
         }
+        
         a:hover {
             color: #a93226;
         }
+        
         #card-element {
-            padding: 15px;
-            margin-bottom: 25px;
+            padding: 0.9375rem;
+            margin-bottom: 1.5625rem;
             border: 1px solid var(--input-border);
-            border-radius: 8px;
+            border-radius: 0.5rem;
             background-color: var(--input-bg);
         }
+        
         #card-errors {
             color: var(--accent-color);
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 0.9375rem;
             font-size: 0.9em;
         }
+        
         .lds-ring {
             display: inline-block;
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 5rem;
+            height: 5rem;
         }
+        
         .lds-ring div {
             box-sizing: border-box;
             display: block;
             position: absolute;
-            width: 64px;
-            height: 64px;
-            margin: 8px;
-            border: 8px solid #fff;
+            width: 4rem;
+            height: 4rem;
+            margin: 0.5rem;
+            border: 0.5rem solid #fff;
             border-radius: 50%;
             animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
             border-color: #fff transparent transparent transparent;
         }
+        
         .lds-ring div:nth-child(1) {
             animation-delay: -0.45s;
         }
+        
         .lds-ring div:nth-child(2) {
             animation-delay: -0.3s;
         }
+        
         .lds-ring div:nth-child(3) {
             animation-delay: -0.15s;
         }
+        
         @keyframes lds-ring {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
+        
         #loading-overlay {
             position: fixed;
             top: 0;
@@ -188,315 +215,540 @@
             align-items: center;
             z-index: 1000;
         }
+        
         #menu {
             display: none;
-            margin-bottom: 25px;
+            margin-bottom: 1.5625rem;
         }
+        
         #total {
             font-size: 1.2em;
             font-weight: 600;
             text-align: right;
-            margin-bottom: 25px;
+            margin-bottom: 1.5625rem;
         }
+        
         .fade-in {
             animation: fadeIn 0.5s ease-out;
         }
+        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(1.25rem); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.875rem;
+        }
+        
+        .step-dot {
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 50%;
+            background-color: var(--input-border);
+            transition: background-color 0.3s ease;
+        }
+        
+        .step-dot.active {
+            background-color: var(--accent-color);
+        }
+        
+        .dish-preview {
+            display: none;
+            margin-top: 1.25rem;
+            padding: 1.25rem;
+            border: 1px solid var(--input-border);
+            border-radius: 0.5rem;
+            background-color: var(--bg-color);
+        }
+        
+        .dish-preview img {
+            width: 100%;
+            height: 12.5rem;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 0.625rem;
+        }
+        
+        .dish-preview h3 {
+            margin: 0 0 0.625rem;
+            color: var(--primary-color);
+        }
+        
+        .dish-preview p {
+            margin: 0;
+            color: var(--text-color);
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.25rem;
+        }
+        
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 0.3125rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--input-border);
+            color: var(--text-color);
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+            transform: translateY(-0.125rem);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Exquisite Gourmet</h1>
         <div id="messages"></div>
+        <div class="step-indicator">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+        </div>
         <form id="payment-form" method="POST">
-            <label for="customer_name">Full Name</label>
-            <input type="text" id="customer_name" name="customer_name" required placeholder="Enter your full name">
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required placeholder="Enter your email">
-            
-            <label for="dish_type">Dish Type</label>
-            <select id="dish_type" name="dish_type" required>
-                <option value="">Select a dish type</option>
-                <option value="appetizer">Appetizer</option>
-                <option value="main_course">Main Course</option>
-                <option value="dessert">Dessert</option>
-            </select>
-            
-            <div id="menu"></div>
-            
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" min="1" required placeholder="Enter desired quantity">
-            
-            <div id="total">Total: $0.00</div>
-            
-            <label for="card-element">Credit or debit card</label>
-            <div id="card-element">
-                <!-- A Stripe Element will be inserted here. -->
+            <div class="step active" id="step1">
+                <label for="customer_name">Full Name</label>
+                <input type="text" id="customer_name" name="customer_name" required placeholder="Enter your full name">
+                
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+                
+                <div class="navigation-buttons">
+                    <div></div>
+                    <button type="button" class="btn btn-primary" id="next1">Next</button>
+                </div>
             </div>
             
-            <!-- Used to display form errors. -->
-            <div id="card-errors" role="alert"></div>
+            <div class="step" id="step2">
+                <label for="dish_type">Dish Type</label>
+                <select id="dish_type" name="dish_type" required>
+                    <option value="">Select a dish type</option>
+                    <option value="appetizer">Appetizer</option>
+                    <option value="main_course">Main Course</option>
+                    <option value="dessert">Dessert</option>
+                </select>
+                
+                <div id="menu"></div>
+                
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" name="quantity" min="1" required placeholder="Enter desired quantity">
+                
+                <div id="total">Total: $0.00</div>
+                
+                <div class="dish-preview" id="dish-preview">
+                    <img src="" alt="Dish preview">
+                    <h3></h3>
+                    <p></p>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-secondary" id="prev2">Previous</button>
+                    <button type="button" class="btn btn-primary" id="next2">Next</button>
+                </div>
+            </div>
             
-            <input type="submit" value="Place Order and Pay">
+            <div class="step" id="step3">
+                <label for="card-element">Credit or debit card</label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+                
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert"></div>
+                
+                <div class="navigation-buttons">
+                    <button type="button" class="btn btn-secondary" id="prev3">Previous</button>
+                    <input type="submit" value="Place Order and Pay" class="btn btn-primary">
+                </div>
+            </div>
         </form>
-        <a href="{{ url_for('view_orders') }}">View Order History</a>
+        <a href="{{ url_for('view_orders') }}" id="view-orders-link">View Order History</a>
     </div>
-
+    
     <div id="loading-overlay" style="display: none;">
         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
     </div>
-
+    
     <script>
-    // Create a Stripe client.
-    var stripe = Stripe('your_publishable_key');  // Replace with your actual publishable key
-    var elements = stripe.elements();
-
-    // Create an instance of the card Element.
-    var card = elements.create('card');
-
-    // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element');
-
-    // Handle real-time validation errors from the card Element.
-    card.on('change', function(event) {
-        var displayError = document.getElementById('card-errors');
-        if (event.error) {
-            displayError.textContent = event.error.message;
-        } else {
-            displayError.textContent = '';
-        }
-    });
-
-    // Menu data (this would typically come from a server)
-    const menuData = {
-        appetizer: [
-            { name: "Bruschetta", price: 8.99 },
-            { name: "Calamari", price: 10.99 },
-            { name: "Caprese Salad", price: 9.99 }
-        ],
-        main_course: [
-            { name: "Filet Mignon", price: 29.99 },
-            { name: "Salmon Fillet", price: 24.99 },
-            { name: "Vegetarian Lasagna", price: 19.99 }
-        ],
-        dessert: [
-            { name: "Tiramisu", price: 7.99 },
-            { name: "Crème Brûlée", price: 8.99 },
-            { name: "Chocolate Mousse", price: 6.99 }
-        ]
-    };
-
-    // Function to update the menu based on dish type selection
-    function updateMenu() {
-        const dishType = document.getElementById('dish_type').value;
-        const menuDiv = document.getElementById('menu');
-        const dishes = menuData[dishType] || [];
+        // Creating a Stripe client.
+        var stripe = Stripe('your_publishable_key');  // We will replace with your actual publishable key
+        var elements = stripe.elements();
         
-        menuDiv.innerHTML = '';
-        if (dishes.length > 0) {
-            const select = document.createElement('select');
-            select.id = 'dish_name';
-            select.name = 'dish_name';
-            select.required = true;
-            select.innerHTML = '<option value="">Select a dish</option>';
-            dishes.forEach(dish => {
-                select.innerHTML += `<option value="${dish.name}" data-price="${dish.price}">${dish.name} - $${dish.price.toFixed(2)}</option>`;
+        // Creating an instance of the card Element.
+        var card = elements.create('card');
+        
+        // Adding an instance of the card Element into the `card-element` <div>.
+            card.mount('#card-element');
+            
+            // Handling real-time validation errors from the card Element.
+            card.on('change', function(event) {
+                var displayError = document.getElementById('card-errors');
+                displayError.textContent = event.error ? event.error.message : '';
             });
-            menuDiv.appendChild(select);
-            menuDiv.style.display = 'block';
-            select.addEventListener('change', updateTotal);
-        } else {
-            menuDiv.style.display = 'none';
-        }
-        updateTotal();
-    }
-
-    // Function to update the total price
-    function updateTotal() {
-        const dishSelect = document.getElementById('dish_name');
-        const quantity = document.getElementById('quantity').value;
-        let total = 0;
-        
-        if (dishSelect && dishSelect.selectedIndex > 0) {
-            const selectedOption = dishSelect.options[dishSelect.selectedIndex];
-            const price = parseFloat(selectedOption.dataset.price);
-            total = price * (quantity || 1);
-        }
-        
-        document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
-    }
-
-    // Event listeners
-    document.getElementById('dish_type').addEventListener('change', updateMenu);
-    document.getElementById('quantity').addEventListener('input', updateTotal);
-
-    // Handle form submission
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
-
-        document.getElementById('loading-overlay').style.display = 'flex';
-
-        stripe.createToken(card).then(function(result) {
-            if (result.error) {
-                // Inform the user if there was an error
-                var errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
-                document.getElementById('loading-overlay').style.display = 'none';
-            } else {
-                // Send the token to your server
-                stripeTokenHandler(result.token);
+            
+            const steps = document.querySelectorAll('.step');
+            const stepDots = document.querySelectorAll('.step-dot');
+            let currentStep = 0;
+            
+            function showStep(stepIndex) {
+                steps.forEach((step, index) => {
+                    step.classList.toggle('active', index === stepIndex);
+                    stepDots[index].classList.toggle('active', index === stepIndex);
+                });
+                currentStep = stepIndex;
             }
-        });
-    });
-
-    // Submit the form with the token ID
-    function stripeTokenHandler(token) {
-        // Insert the token ID into the form so it gets submitted to the server
-        var form = document.getElementById('payment-form');
-        var hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', token.id);
-        form.appendChild(hiddenInput);
-
-        // Submit the form
-        fetch('/place_order', {
-            method: 'POST',
-            body: new FormData(form),
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('loading-overlay').style.display = 'none';
-            if (data.success) {
-                showMessage('success', 'Order placed successfully!');
-                form.reset();
-                updateMenu();
+            
+            document.getElementById('next1').addEventListener('click', () => {
+                if (validateStep1()) {
+                    showStep(1);
+                    gsap.from(steps[1], {opacity: 0, x: 50, duration: 0.5});
+                }
+            });
+            
+            document.getElementById('prev2').addEventListener('click', () => {
+                showStep(0);
+                gsap.from(steps[0], {opacity: 0, x: -50, duration: 0.5});
+            });
+            
+            document.getElementById('next2').addEventListener('click', () => {
+                if (validateStep2()) {
+                    showStep(2);
+                    gsap.from(steps[2], {opacity: 0, x: 50, duration: 0.5});
+                }
+            });
+            
+            document.getElementById('prev3').addEventListener('click', () => {
+                showStep(1);
+                gsap.from(steps[1], {opacity: 0, x: -50, duration: 0.5});
+            });
+            
+            function validateStep1() {
+                var customerName = document.getElementById('customer_name').value.trim();
+                var email = document.getElementById('email').value.trim();
+                
+                if (customerName === "" || email === "") {
+                    showMessage('error', "Please fill in all fields.");
+                    return false;
+                }
+                
+                if (!/\S+@\S+\.\S+/.test(email)) {
+                    showMessage('error', "Please enter a valid email address.");
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            function validateStep2() {
+                var dishType = document.getElementById('dish_type').value;
+                var dishName = document.getElementById('dish_name') ? document.getElementById('dish_name').value : '';
+                var quantity = document.getElementById('quantity').value.trim();
+                
+                if (dishType === "" || dishName === "" || quantity === "") {
+                    showMessage('error', "Please fill in all fields.");
+                    return false;
+                }
+                
+                if (isNaN(quantity) || parseInt(quantity) < 1) {
+                    showMessage('error', "Please enter a valid quantity (minimum 1).");
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            const menuData = {
+                appetizer: [
+                { name: "Bruschetta", price: 8.99, description: "Toasted bread topped with fresh tomatoes, garlic, and basil", image: "https://example.com/bruschetta.jpg" },
+                { name: "Calamari", price: 10.99, description: "Crispy fried squid rings served with marinara sauce", image: "https://example.com/calamari.jpg" },
+                { name: "Caprese Salad", price: 9.99, description: "Fresh mozzarella, tomatoes, and basil drizzled with balsamic glaze", image: "https://example.com/caprese.jpg" }
+                ],
+                main_course: [
+                { name: "Filet Mignon", price: 29.99, description: "Tender beef filet cooked to perfection, served with roasted vegetables", image: "https://example.com/filet-mignon.jpg" },
+                { name: "Salmon Fillet", price: 24.99, description: "Grilled Atlantic salmon with lemon butter sauce and asparagus", image: "https://example.com/salmon.jpg" },
+                { name: "Vegetarian Lasagna", price: 19.99, description: "Layers of pasta, ricotta, and grilled vegetables in tomato sauce", image: "https://example.com/veggie-lasagna.jpg" }
+                ],
+                dessert: [
+                { name: "Tiramisu", price: 7.99, description: "Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream", image: "https://example.com/tiramisu.jpg" },
+                { name: "Crème Brûlée", price: 8.99, description: "Rich custard topped with a layer of caramelized sugar", image: "https://example.com/creme-brulee.jpg" },
+                { name: "Chocolate Mousse", price: 6.99, description: "Light and airy chocolate dessert topped with whipped cream", image: "https://example.com/chocolate-mousse.jpg" }
+                ]
+            };
+            
+            updateMenu();
+            
+            
+            // Animating the form on load
+            gsap.from('.container', {opacity: 0, y: 50, duration: 1, ease: 'power3.out'});
+            gsap.from('h1', {opacity: 0, y: -50, duration: 1, delay: 0.5, ease: 'power3.out'});
+            gsap.from('.step-indicator', {opacity: 0, scale: 0.5, duration: 1, delay: 0.7, ease: 'elastic.out(1, 0.5)'});
+            
+            
+            // Function to update the menu based on dish type selection
+            // Modifying the updateMenu function to include dish preview done before
+            function updateMenu() {
+                const dishType = document.getElementById('dish_type').value;
+                const menuDiv = document.getElementById('menu');
+                const dishes = menuData[dishType] || [];
+                
+                menuDiv.innerHTML = '';
+                if (dishes.length > 0) {
+                    const select = document.createElement('select');
+                    select.id = 'dish_name';
+                    select.name = 'dish_name';
+                    select.required = true;
+                    select.innerHTML = '<option value="">Select a dish</option>';
+                    dishes.forEach(dish => {
+                        select.innerHTML += `<option value="${dish.name}" data-price="${dish.price}" data-description="${dish.description}" data-image="${dish.image}">${dish.name} - $${dish.price.toFixed(2)}</option>`;
+                    });
+                    menuDiv.appendChild(select);
+                    menuDiv.style.display = 'block';
+                    select.addEventListener('change', () => {
+                        updateTotal();
+                        updateDishPreview();
+                    });
+                } else {
+                    menuDiv.style.display = 'none';
+                }
                 updateTotal();
-            } else {
-                showMessage('error', data.message || 'An error occurred while placing your order.');
+                updateDishPreview();
             }
-        })
-        .catch(error => {
-            document.getElementById('loading-overlay').style.display = 'none';
-            showMessage('error', 'An error occurred. Please try again.');
-            console.error('Error:', error);
-        });
-    }
-
-    function validateForm() {
-        var customerName = document.getElementById('customer_name').value.trim();
-        var email = document.getElementById('email').value.trim();
-        var dishType = document.getElementById('dish_type').value;
-        var dishName = document.getElementById('dish_name') ? document.getElementById('dish_name').value : '';
-        var quantity = document.getElementById('quantity').value.trim();
-
-        if (customerName === "" || email === "" || dishType === "" || dishName === "" || quantity === "") {
-            showMessage('error', "Please fill in all fields to complete your order.");
-            return false;
-        }
-
-        if (!/\S+@\S+\.\S+/.test(email)) {
-            showMessage('error', "Please enter a valid email address.");
-            return false;
-        }
-
-        if (isNaN(quantity) || parseInt(quantity) < 1) {
-            showMessage('error', "Please enter a valid quantity (minimum 1).");
-            return false;
-        }
-
-        return true;
-    }
-
-    function showMessage(type, content) {
-        const messagesDiv = document.getElementById('messages');
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${type} fade-in`;
-        messageDiv.textContent = content;
-        messagesDiv.appendChild(messageDiv);
-        
-        // Remove the message after 5 seconds
-        setTimeout(() => {
-            messageDiv.remove();
-        }, 5000);
-    }
-
-     // Initialize the form
-     updateMenu();
-    updateTotal();
-
-    // Lazy load the background image
-    const bg = new Image();
-    bg.onload = function() {
-        document.body.style.backgroundImage = `url(${this.src})`;
-    }
-    bg.src = 'https://images.unsplash.com/photo-1514986888952-8cd320577b68?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80';
-
-    // Add input masking for better UX
-    function maskCardNumber(input) {
-        let value = input.replace(/\D/g, '');
-        if (value.length > 16) value = value.slice(0, 16);
-        let maskedValue = '';
-        for (let i = 0; i < value.length; i++) {
-            if (i > 0 && i % 4 === 0) maskedValue += ' ';
-            maskedValue += value[i];
-        }
-        return maskedValue;
-    }
-
-     // Example usage of input masking (you'd typically do this for each input field)
-     const cardNumberInput = document.querySelector('input[name="cardNumber"]');
-    if (cardNumberInput) {
-        cardNumberInput.addEventListener('input', function(e) {
-            e.target.value = maskCardNumber(e.target.value);
-        });
-    }
-
-    // Add smooth scrolling to all links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
+            
+            function updateDishPreview() {
+                const dishSelect = document.getElementById('dish_name');
+                const previewDiv = document.getElementById('dish-preview');
+                
+                if (dishSelect && dishSelect.selectedIndex > 0) {
+                    const selectedOption = dishSelect.options[dishSelect.selectedIndex];
+                    const name = selectedOption.text.split(' - ')[0];
+                    const price = selectedOption.dataset.price;
+                    const description = selectedOption.dataset.description;
+                    const image = selectedOption.dataset.image;
+                    
+                    previewDiv.querySelector('img').src = image;
+                    previewDiv.querySelector('h3').textContent = name;
+                    previewDiv.querySelector('p').textContent = `${description} - $${parseFloat(price).toFixed(2)}`;
+                    
+                    gsap.fromTo(previewDiv, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.5, display: 'block'});
+                } else {
+                    previewDiv.style.display = 'none';
+                }
+            }
+            
+            // Function to update the total price
+            function updateTotal() {
+                const dishSelect = document.getElementById('dish_name');
+                const quantity = document.getElementById('quantity').value;
+                let total = 0;
+                
+                if (dishSelect && dishSelect.selectedIndex > 0) {
+                    const selectedOption = dishSelect.options[dishSelect.selectedIndex];
+                    const price = parseFloat(selectedOption.dataset.price);
+                    total = price * (quantity || 1);
+                }
+                
+                document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
+            }
+            
+            // Event listeners I have
+            document.getElementById('dish_type').addEventListener('change', updateMenu);
+            document.getElementById('quantity').addEventListener('input', updateTotal);
+            
+            // Handling form submission
+            var form = document.getElementById('payment-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                if (!validateForm()) {
+                    return;
+                }
+                
+                document.getElementById('loading-overlay').style.display = 'flex';
+                
+                stripe.createToken(card).then(function(result) {
+                    if (result.error) {
+                        // Inform the user if there was an error
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                        document.getElementById('loading-overlay').style.display = 'none';
+                    } else {
+                        // Send the token to your server
+                        stripeTokenHandler(result.token);
+                    }
+                });
             });
-        });
-    });
-
-
-    // Add form autosave functionality
-    let autosaveTimer;
-    const formInputs = document.querySelectorAll('#payment-form input, #payment-form select');
-    formInputs.forEach(input => {
-        input.addEventListener('input', () => {
-            clearTimeout(autosaveTimer);
-            autosaveTimer = setTimeout(() => {
-                localStorage.setItem('formData', JSON.stringify(Object.fromEntries(new FormData(form))));
-            }, 1000);
-        });
-    });
-
-    // Load autosaved form data
-    window.addEventListener('load', () => {
-        const savedData = JSON.parse(localStorage.getItem('formData'));
-        if (savedData) {
-            Object.keys(savedData).forEach(key => {
-                const input = document.querySelector(`[name="${key}"]`);
-                if (input) input.value = savedData[key];
-            });
+            
+            // Submitting the form with the token ID
+            function stripeTokenHandler(token) {
+                // Inserting the token ID into the form so it gets submitted to the server
+                var form = document.getElementById('payment-form');
+                var hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
+                
+                // Submiting the form
+                fetch('/place_order', {
+                    method: 'POST',
+                    body: new FormData(form),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('loading-overlay').style.display = 'none';
+                    if (data.success) {
+                        showMessage('success', 'Order placed successfully!');
+                        form.reset();
+                        updateMenu();
+                        updateTotal();
+                    } else {
+                        showMessage('error', data.message || 'An error occurred while placing your order.');
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loading-overlay').style.display = 'none';
+                    showMessage('error', 'An error occurred. Please try again.');
+                    console.error('Error:', error);
+                });
+            }
+            
+            function validateForm() {
+                var customerName = document.getElementById('customer_name').value.trim();
+                var email = document.getElementById('email').value.trim();
+                var dishType = document.getElementById('dish_type').value;
+                var dishName = document.getElementById('dish_name') ? document.getElementById('dish_name').value : '';
+                var quantity = document.getElementById('quantity').value.trim();
+                
+                if (customerName === "" || email === "" || dishType === "" || dishName === "" || quantity === "") {
+                    showMessage('error', "Please fill in all fields to complete your order.");
+                    return false;
+                }
+                
+                if (!/\S+@\S+\.\S+/.test(email)) {
+                    showMessage('error', "Please enter a valid email address.");
+                    return false;
+                }
+                
+                if (isNaN(quantity) || parseInt(quantity) < 1) {
+                    showMessage('error', "Please enter a valid quantity (minimum 1).");
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            function showMessage(type, content) {
+                const messagesDiv = document.getElementById('messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type} fade-in`;
+                messageDiv.textContent = content;
+                messagesDiv.appendChild(messageDiv);
+                
+                // Removing the message after 5 seconds
+                setTimeout(() => {
+                    messageDiv.remove();
+                }, 5000);
+            }
+            
+            // Initializing the form here
             updateMenu();
             updateTotal();
-        }
-    });
+            
+            // I implemented Lazy load the background image
+            const bg = new Image();
+            bg.onload = function() {
+                document.body.style.backgroundImage = `url(${this.src})`;
+            }
+            bg.src = 'https://images.unsplash.com/photo-1514986888952-8cd320577b68?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80';
+            
+            // Add input masking for better UX
+            function maskCardNumber(input) {
+                let value = input.replace(/\D/g, '');
+                if (value.length > 16) value = value.slice(0, 16);
+                let maskedValue = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) maskedValue += ' ';
+                    maskedValue += value[i];
+                }
+                return maskedValue;
+            }
+            
+            // Example usage of input masking (you'd typically do this for each input field)!!
+            const cardNumberInput = document.querySelector('input[name="cardNumber"]');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    e.target.value = maskCardNumber(e.target.value);
+                });
+            }
+            
+            // Added smooth scrolling to all links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            
+            // Added form autosave functionality
+            let autosaveTimer;
+            const formInputs = document.querySelectorAll('#payment-form input, #payment-form select');
+            formInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    clearTimeout(autosaveTimer);
+                    autosaveTimer = setTimeout(() => {
+                        localStorage.setItem('formData', JSON.stringify(Object.fromEntries(new FormData(form))));
+                    }, 1000);
+                });
+            });
+            
+            // Load autosaved form data
+            window.addEventListener('load', () => {
+                const savedData = JSON.parse(localStorage.getItem('formData'));
+                if (savedData) {
+                    Object.keys(savedData).forEach(key => {
+                        const input = document.querySelector(`[name="${key}"]`);
+                        if (input) input.value = savedData[key];
+                    });
+                    updateMenu();
+                    updateTotal();
+                }
+            });
 
-</script>
-</body>
-</html>
+            //Level 3 reached!!!
+            
+        </script>
+    </body>
+    </html>
+    

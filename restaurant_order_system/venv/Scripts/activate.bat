@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=C:\Users\New\restaurant_order_system\venv"
+set "VIRTUAL_ENV=C:\Users\New\payment\restaurant_order_system\venv"
 
 if not defined PROMPT (
     set "PROMPT=$P$G"
